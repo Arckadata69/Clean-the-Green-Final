@@ -58,6 +58,7 @@
   <ItemGroup>
     <Compile Include="Assets\Scripts\SfxTrigger.cs" />
     <Compile Include="Assets\Scripts\Button Float.cs" />
+    <Compile Include="Assets\Scripts\WindowPopup.cs" />
     <Compile Include="Assets\Scripts\MiniGameBgmController.cs" />
     <Compile Include="Assets\Scripts\SfxManager.cs" />
     <Compile Include="Assets\Scripts\Click.cs" />
