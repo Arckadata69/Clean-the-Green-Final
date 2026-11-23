@@ -5,9 +5,24 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/Menu.unity
+    guid: 13e545fe30d60c743af66d6793a73297
+  - enabled: 1
+    path: Assets/Scenes/Game.unity
+    guid: 8e2f8b77914880f43b043776faf6dcd5
+  - enabled: 1
+    path: Assets/Scenes/MiniGame.unity
+    guid: 5b1939f0fb4cd2347820b9950322ca8b
+  - enabled: 1
+    path: Assets/Scenes/Shop.unity
+    guid: 96ea4d49b989820489aa529a8f35aadf
+  - enabled: 1
+    path: Assets/Scenes/Almanac.unity
+    guid: 1a26036f072d5d841bc16badbbb1724f
   m_configObjects:
     com.unity.dt.app-ui: {fileID: 11400000, guid: 1b1c20d82303e4b5781c3ef50ac1449f, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
