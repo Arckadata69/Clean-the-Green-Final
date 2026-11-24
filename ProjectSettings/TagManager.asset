@@ -2,7 +2,7 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!78 &1
 TagManager:
-  serializedVersion: 2
+  serializedVersion: 3
   tags: []
   layers:
   - Default
@@ -41,3 +41,36 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BG
+    uniqueID: 3370182739
+    locked: 0
+  - name: UI
+    uniqueID: 352598729
+    locked: 0
+  - name: Text
+    uniqueID: 1858455949
+    locked: 0
+  - name: Button
+    uniqueID: 3191220259
+    locked: 0
+  - name: New Layer 5
+    uniqueID: 3835144913
+    locked: 0
+  - name: New Layer 6
+    uniqueID: 3240971755
+    locked: 0
+  - name: New Layer 7
+    uniqueID: 2294617241
+    locked: 0
+  - name: New Layer 8
+    uniqueID: 4282849011
+    locked: 0
+  - name: New Layer 9
+    uniqueID: 652010693
+    locked: 0
+  - name: New Layer 10
+    uniqueID: 2660422395
+    locked: 0
+  m_RenderingLayers:
+  - Default
+  m_MigratedRenderPipelines: []
