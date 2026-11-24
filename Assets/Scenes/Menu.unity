@@ -163,20 +163,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9130ff57cb060f4ba09dc86e17b804c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SettingsToggleController
-  channel: 0
-  customSaveKey: 
-  targetAudioSource: {fileID: 0}
-  buttonSpriteRenderer: {fileID: 0}
-  buttonImage: {fileID: 0}
-  iconSpriteRenderer: {fileID: 0}
-  iconImage: {fileID: 0}
-  buttonOnSprite: {fileID: 0}
-  buttonOffSprite: {fileID: 0}
-  iconOnSprite: {fileID: 0}
-  iconOffSprite: {fileID: 0}
-  animateOnToggle: 1
-  punchScale: 1.14
-  animDuration: 0.14
+  saveKey: Setting_Music_On
+  audioToMute: {fileID: 0}
+  buttonRenderer: {fileID: 0}
+  iconRenderer: {fileID: 0}
+  buttonOn: {fileID: 0}
+  buttonOff: {fileID: 0}
+  iconOn: {fileID: 0}
+  iconOff: {fileID: 0}
+  popScale: 1.14
+  popTime: 0.14
 --- !u!1 &129818601
 GameObject:
   m_ObjectHideFlags: 0
@@ -1837,6 +1833,7 @@ GameObject:
   - component: {fileID: 541415153}
   - component: {fileID: 541415152}
   - component: {fileID: 541415151}
+  - component: {fileID: 541415154}
   m_Layer: 0
   m_Name: MusicB
   m_TagString: Untagged
@@ -1903,9 +1900,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 11500000, guid: d9130ff57cb060f4ba09dc86e17b804c, type: 3}
-        m_TargetAssemblyTypeName: SettingsToggleController, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 1625407746}
+        m_TargetAssemblyTypeName: ClickSfxTrigger, Assembly-CSharp
+        m_MethodName: PlaySfx
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 541415154}
+        m_TargetAssemblyTypeName: SimpleToggleButton, Assembly-CSharp
+        m_MethodName: Toggle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2021,6 +2030,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!114 &541415154
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 541415149}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9130ff57cb060f4ba09dc86e17b804c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LabeledToggleSwitch
+  saveKey: Setting_Music_On
+  audioToMute: {fileID: 681918464}
+  buttonRenderer: {fileID: 541415153}
+  iconRenderer: {fileID: 853350435}
+  buttonOn: {fileID: 21300000, guid: 00d31fdc46d3d2343af06a3bf6f375c5, type: 3}
+  buttonOff: {fileID: 21300000, guid: 844c6dc330e4f2341907f83c4b7ac6d5, type: 3}
+  iconOn: {fileID: 21300000, guid: 0f56ab5f8c4823740a0365453807a1c9, type: 3}
+  iconOff: {fileID: 21300000, guid: 2f9c4f53c3bce55479d709071f3aa023, type: 3}
+  popScale: 1.14
+  popTime: 0.14
 --- !u!1 &543831392
 GameObject:
   m_ObjectHideFlags: 0
@@ -4511,6 +4542,7 @@ GameObject:
   - component: {fileID: 1409276424}
   - component: {fileID: 1409276423}
   - component: {fileID: 1409276422}
+  - component: {fileID: 1409276425}
   m_Layer: 0
   m_Name: NotificationsB
   m_TagString: Untagged
@@ -4577,9 +4609,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9675347}
-        m_TargetAssemblyTypeName: SettingsToggleController, Assembly-CSharp
-        m_MethodName: ToggleNotifications
+      - m_Target: {fileID: 1625407746}
+        m_TargetAssemblyTypeName: ClickSfxTrigger, Assembly-CSharp
+        m_MethodName: PlaySfx
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 1409276425}
+        m_TargetAssemblyTypeName: SimpleToggleButton, Assembly-CSharp
+        m_MethodName: Toggle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4695,6 +4739,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!114 &1409276425
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1409276420}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9130ff57cb060f4ba09dc86e17b804c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::LabeledToggleSwitch
+  saveKey: Setting_Notification_On
+  audioToMute: {fileID: 0}
+  buttonRenderer: {fileID: 1409276424}
+  iconRenderer: {fileID: 354929169}
+  buttonOn: {fileID: 21300000, guid: 00d31fdc46d3d2343af06a3bf6f375c5, type: 3}
+  buttonOff: {fileID: 21300000, guid: 844c6dc330e4f2341907f83c4b7ac6d5, type: 3}
+  iconOn: {fileID: 21300000, guid: c9ddfbd78a0f4e24cacc6d9786587331, type: 3}
+  iconOff: {fileID: 21300000, guid: 4232f7b1304f9ec469430d62c29f80a0, type: 3}
+  popScale: 1.14
+  popTime: 0.14
 --- !u!1 &1459717226
 GameObject:
   m_ObjectHideFlags: 0
@@ -5831,6 +5897,7 @@ GameObject:
   - component: {fileID: 2023949770}
   - component: {fileID: 2023949769}
   - component: {fileID: 2023949768}
+  - component: {fileID: 2023949771}
   m_Layer: 0
   m_Name: SfxB
   m_TagString: Untagged
@@ -5897,9 +5964,21 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 9675347}
-        m_TargetAssemblyTypeName: SettingsToggleController, Assembly-CSharp
-        m_MethodName: ToggleSfx
+      - m_Target: {fileID: 1625407746}
+        m_TargetAssemblyTypeName: ClickSfxTrigger, Assembly-CSharp
+        m_MethodName: PlaySfx
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 2023949771}
+        m_TargetAssemblyTypeName: SimpleToggleButton, Assembly-CSharp
+        m_MethodName: Toggle
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -6015,6 +6094,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
+--- !u!114 &2023949771
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2023949766}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9130ff57cb060f4ba09dc86e17b804c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SimpleToggleButton
+  saveKey: Setting_Sfx_On
+  audioToMute: {fileID: 1625407744}
+  buttonRenderer: {fileID: 2023949770}
+  iconRenderer: {fileID: 476617423}
+  buttonOn: {fileID: 21300000, guid: 00d31fdc46d3d2343af06a3bf6f375c5, type: 3}
+  buttonOff: {fileID: 21300000, guid: 844c6dc330e4f2341907f83c4b7ac6d5, type: 3}
+  iconOn: {fileID: 21300000, guid: 0f56ab5f8c4823740a0365453807a1c9, type: 3}
+  iconOff: {fileID: 21300000, guid: 2f9c4f53c3bce55479d709071f3aa023, type: 3}
+  popScale: 1.14
+  popTime: 0.14
 --- !u!1 &2047037140
 GameObject:
   m_ObjectHideFlags: 0
