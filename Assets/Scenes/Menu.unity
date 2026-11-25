@@ -4759,7 +4759,6 @@ GameObject:
   - component: {fileID: 1459717228}
   - component: {fileID: 1459717230}
   - component: {fileID: 1459717229}
-  - component: {fileID: 1459717232}
   - component: {fileID: 1459717231}
   m_Layer: 0
   m_Name: User Data (DLT)
@@ -4964,25 +4963,6 @@ MonoBehaviour:
   clickFrameSprites: []
   frameInterval: 0.05
   supportWorldMouseDown: 1
---- !u!114 &1459717232
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1459717226}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 497a58cecae5b984392af747c38fc3a5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ClickSfxTrigger
-  clickClip: {fileID: 8300000, guid: 538570d752cacce41ab1b68837cf2737, type: 3}
-  volume: 1
-  randomizePitch: 1
-  minPitch: 0.96
-  maxPitch: 1.04
-  triggerOnMouseDownForWorldObjects: 1
-  uiButton: {fileID: 0}
 --- !u!1 &1460140080
 GameObject:
   m_ObjectHideFlags: 0
