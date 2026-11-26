@@ -2772,9 +2772,9 @@ MonoBehaviour:
   mainMenuClip: {fileID: 8300000, guid: 5ba1a45eee765954d930ed9b5f2a7104, type: 3}
   forestClip: {fileID: 8300000, guid: 23557af3e09e76c49855ce2992e6a17d, type: 3}
   beachClip: {fileID: 8300000, guid: 6bb72f83f7167fb448932b4fe876d459, type: 3}
-  cityClip: {fileID: 0}
-  miniGameClip: {fileID: 0}
-  shopAlmanacClip: {fileID: 0}
+  cityClip: {fileID: 8300000, guid: d300423b3b39ab248bd5c6cb5fdcb82f, type: 3}
+  miniGameClip: {fileID: 8300000, guid: ee1baa5cfd6b57344812f6669cade04d, type: 3}
+  shopAlmanacClip: {fileID: 8300000, guid: fb8398e3129198048b3d3763e8576723, type: 3}
   autoSwitchOnSceneLoaded: 1
   sceneRules:
   - sceneName: Main Menu
