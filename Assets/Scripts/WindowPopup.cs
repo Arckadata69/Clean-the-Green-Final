@@ -41,16 +41,16 @@ public class PopupWindowController : MonoBehaviour
             {
                 if (other != null && other != this)
                 {
-                    other.CloseWithoutEnablingBlockers();
+                    other.CloseWithoutHidingBackdrop();
                 }
             }
         }
 
         // 2. Show and position the low-opacity white click-blocking backdrop
-        Transform anchor = anchorTarget != null ? anchorTarget : transform;
+        Transform anchor = anchorTarget != null ? anchorTarget : transform.parent;
         if (backdropObject != null)
         {
-            if (snapBackdropToAnchor && anchorTarget != null)
+            if (snapBackdropToAnchor && anchor != null)
             {
                 backdropObject.transform.position = anchor.position + backdropOffset;
             }
@@ -58,7 +58,7 @@ public class PopupWindowController : MonoBehaviour
         }
 
         // 3. Position and open this window
-        if (snapToAnchorOnOpen && anchorTarget != null)
+        if (snapToAnchorOnOpen && anchor != null)
         {
             transform.position = anchor.position + localOffset;
         }
@@ -80,19 +80,19 @@ public class PopupWindowController : MonoBehaviour
     public void Close()
     {
         gameObject.SetActive(false);
+        SetBlockersEnabled(true);
 
         // Only hide backdrop if no other window in otherWindowsToClose is currently open
         if (!AnyOtherWindowOpen() && backdropObject != null)
         {
             backdropObject.SetActive(false);
         }
-
-        SetBlockersEnabled(true);
     }
 
-    private void CloseWithoutEnablingBlockers()
+    private void CloseWithoutHidingBackdrop()
     {
         gameObject.SetActive(false);
+        SetBlockersEnabled(true);
     }
 
     private bool AnyOtherWindowOpen()
