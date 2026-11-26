@@ -3,93 +3,136 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.UI;
 
-public class LocationCarouselController : MonoBehaviour
+public class MapSlider : MonoBehaviour
 {
     [Serializable]
-    public class LocationEntry
+    public class MapEntry
     {
         public string locationName = "Forest";
         public Transform mapTransform;
-        public BGMController.BgmTrack bgmTrack = BGMController.BgmTrack.Forest;
+        public BGMController.BgmTrack bgmTrack = BGMController.BgmTrack.GameLocation1;
+
+        [Header("Lock & Currency Unlock")]
+        public bool unlockedByDefault = true;
+        public string saveKey = "";
+        [Min(0)] public int unlockCost = 100;
+        public UnityEvent onMapUnlocked;
     }
 
-    [Header("Locations (Order: Left -> Right)")]
-    [SerializeField] private List<LocationEntry> locations = new List<LocationEntry>
+    [Header("Maps (Order: Left -> Right)")]
+    [SerializeField] private List<MapEntry> maps = new List<MapEntry>
     {
-        new LocationEntry { locationName = "Forest", bgmTrack = BGMController.BgmTrack.Forest },
-        new LocationEntry { locationName = "Beach", bgmTrack = BGMController.BgmTrack.Beach },
-        new LocationEntry { locationName = "City", bgmTrack = BGMController.BgmTrack.City }
+        new MapEntry { locationName = "Forest", bgmTrack = BGMController.BgmTrack.GameLocation1, unlockedByDefault = true, saveKey = "MapUnlocked_Forest", unlockCost = 0 },
+        new MapEntry { locationName = "Beach", bgmTrack = BGMController.BgmTrack.GameLocation2, unlockedByDefault = false, saveKey = "MapUnlocked_Beach", unlockCost = 100 },
+        new MapEntry { locationName = "City Park", bgmTrack = BGMController.BgmTrack.GameLocation3, unlockedByDefault = false, saveKey = "MapUnlocked_CityPark", unlockCost = 200 }
     };
 
-    [Header("Center Label & Layout")]
-    [SerializeField] private TMP_Text locationLabel;
-    [Tooltip("Horizontal spacing between each map in world units (match your Scene spacing).")]
+    [Header("Scenery Label & Slide Layout")]
+    [Tooltip("Drag the [TEMPLATE] TMP_Text inside Window > Scenery here.")]
+    [SerializeField] private TMP_Text sceneryTitleLabel;
     [SerializeField] private float mapSpacingX = 12f;
     [SerializeField] private Vector3 centerLocalPosition = Vector3.zero;
-
-    [Header("Slide Animation")]
     [SerializeField] private float slideDuration = 0.35f;
     [SerializeField] private bool loopAround = true;
     [SerializeField] private bool playBgmOnStart = true;
 
+    [Header("Map Locked UI / Object")]
+    [Tooltip("Drag your Map Locked GameObject here.")]
+    [SerializeField] private GameObject mapLockedRoot;
+    [Tooltip("Optional: Assign your prepared Unlock Button here (or hook UnlockCurrentMap() in its OnClick).")]
+    [SerializeField] private Button unlockButton;
+    [Tooltip("Optional: TMP_Text showing the unlock cost (e.g., '100').")]
+    [SerializeField] private TMP_Text unlockCostLabel;
+    [Tooltip("Optional: TMP_Text showing current player currency.")]
+    [SerializeField] private TMP_Text currencyLabel;
+    [SerializeField] private string currencySaveKey = "PlayerCurrency";
+    [SerializeField] private int startingCurrency = 250;
+
     public int CurrentIndex { get; private set; } = 0;
+    public int CurrentCurrency
+    {
+        get => PlayerPrefs.GetInt(currencySaveKey, startingCurrency);
+        private set
+        {
+            PlayerPrefs.SetInt(currencySaveKey, Mathf.Max(0, value));
+            PlayerPrefs.Save();
+            RefreshCurrencyUI();
+        }
+    }
+
     private Coroutine slideRoutine;
+
+    void Awake()
+    {
+        if (!PlayerPrefs.HasKey(currencySaveKey))
+        {
+            PlayerPrefs.SetInt(currencySaveKey, startingCurrency);
+        }
+
+        if (unlockButton != null)
+        {
+            unlockButton.onClick.RemoveListener(UnlockCurrentMap);
+            unlockButton.onClick.AddListener(UnlockCurrentMap);
+        }
+    }
 
     void Start()
     {
-        if (locations == null || locations.Count == 0) return;
+        if (maps == null || maps.Count == 0) return;
 
-        // Auto-calculate spacing if Map1 and Map2 are already placed side-by-side in Scene view
-        if (locations.Count >= 2 && locations[0].mapTransform != null && locations[1].mapTransform != null)
+        // Auto-detect horizontal spacing from Map1 and Map2 if they are already spaced in Scene view
+        if (maps.Count >= 2 && maps[0].mapTransform != null && maps[1].mapTransform != null)
         {
-            float detectedSpacing = Mathf.Abs(locations[1].mapTransform.localPosition.x - locations[0].mapTransform.localPosition.x);
+            float detectedSpacing = Mathf.Abs(maps[1].mapTransform.localPosition.x - maps[0].mapTransform.localPosition.x);
             if (detectedSpacing > 0.01f)
             {
                 mapSpacingX = detectedSpacing;
             }
-            centerLocalPosition = locations[0].mapTransform.localPosition;
+            centerLocalPosition = maps[0].mapTransform.localPosition;
         }
 
         ApplyImmediate(CurrentIndex, playBgmOnStart);
     }
 
-    // Hook this to your Right button
-    public void NextLocation()
+    // Hook to Right button OnClick
+    public void NextMap()
     {
-        if (locations == null || locations.Count == 0) return;
+        if (maps == null || maps.Count == 0) return;
 
         int next = CurrentIndex + 1;
-        if (next >= locations.Count)
+        if (next >= maps.Count)
         {
             if (!loopAround) return;
             next = 0;
         }
 
-        GoToLocation(next);
+        GoToMap(next);
     }
 
-    // Hook this to your Left button
-    public void PreviousLocation()
+    // Hook to Left button OnClick
+    public void PreviousMap()
     {
-        if (locations == null || locations.Count == 0) return;
+        if (maps == null || maps.Count == 0) return;
 
         int prev = CurrentIndex - 1;
         if (prev < 0)
         {
             if (!loopAround) return;
-            prev = locations.Count - 1;
+            prev = maps.Count - 1;
         }
 
-        GoToLocation(prev);
+        GoToMap(prev);
     }
 
-    public void GoToLocation(int targetIndex)
+    public void GoToMap(int targetIndex)
     {
-        if (targetIndex < 0 || targetIndex >= locations.Count) return;
+        if (maps == null || targetIndex < 0 || targetIndex >= maps.Count) return;
 
         CurrentIndex = targetIndex;
-        UpdateLabelAndBgm(CurrentIndex, playBgm: true);
+        RefreshMapState(CurrentIndex, playBgm: true);
 
         if (slideRoutine != null)
         {
@@ -106,28 +149,78 @@ public class LocationCarouselController : MonoBehaviour
         }
     }
 
+    public bool IsMapUnlocked(int index)
+    {
+        if (maps == null || index < 0 || index >= maps.Count) return true;
+        MapEntry entry = maps[index];
+
+        if (string.IsNullOrWhiteSpace(entry.saveKey))
+        {
+            return entry.unlockedByDefault;
+        }
+
+        int defaultInt = entry.unlockedByDefault ? 1 : 0;
+        return PlayerPrefs.GetInt(entry.saveKey, defaultInt) == 1;
+    }
+
+    // Hook to your prepared Unlock button OnClick (or assign via Unlock Button slot)
+    public void UnlockCurrentMap()
+    {
+        if (maps == null || CurrentIndex < 0 || CurrentIndex >= maps.Count) return;
+
+        MapEntry entry = maps[CurrentIndex];
+        if (IsMapUnlocked(CurrentIndex)) return;
+
+        if (CurrentCurrency < entry.unlockCost)
+        {
+            Debug.Log($"Not enough currency to unlock {entry.locationName}. Need {entry.unlockCost}, have {CurrentCurrency}.");
+            return;
+        }
+
+        CurrentCurrency -= entry.unlockCost;
+
+        if (!string.IsNullOrWhiteSpace(entry.saveKey))
+        {
+            PlayerPrefs.SetInt(entry.saveKey, 1);
+            PlayerPrefs.Save();
+        }
+        else
+        {
+            entry.unlockedByDefault = true;
+        }
+
+        entry.onMapUnlocked?.Invoke();
+        RefreshMapState(CurrentIndex, playBgm: true);
+    }
+
+    public void AddCurrency(int amount)
+    {
+        if (amount <= 0) return;
+        CurrentCurrency += amount;
+    }
+
     private void ApplyImmediate(int index, bool playBgm)
     {
-        for (int i = 0; i < locations.Count; i++)
+        for (int i = 0; i < maps.Count; i++)
         {
-            Transform map = locations[i].mapTransform;
+            Transform map = maps[i].mapTransform;
             if (map == null) continue;
 
             float offsetX = (i - index) * mapSpacingX;
             map.localPosition = new Vector3(centerLocalPosition.x + offsetX, centerLocalPosition.y, centerLocalPosition.z);
         }
 
-        UpdateLabelAndBgm(index, playBgm);
+        RefreshMapState(index, playBgm);
     }
 
     private IEnumerator SlideToIndexRoutine(int targetIndex)
     {
-        Vector3[] startPositions = new Vector3[locations.Count];
-        Vector3[] endPositions = new Vector3[locations.Count];
+        Vector3[] startPositions = new Vector3[maps.Count];
+        Vector3[] endPositions = new Vector3[maps.Count];
 
-        for (int i = 0; i < locations.Count; i++)
+        for (int i = 0; i < maps.Count; i++)
         {
-            Transform map = locations[i].mapTransform;
+            Transform map = maps[i].mapTransform;
             if (map == null) continue;
 
             startPositions[i] = map.localPosition;
@@ -143,40 +236,67 @@ public class LocationCarouselController : MonoBehaviour
             elapsed += Time.deltaTime;
             float t = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(elapsed / duration));
 
-            for (int i = 0; i < locations.Count; i++)
+            for (int i = 0; i < maps.Count; i++)
             {
-                if (locations[i].mapTransform != null)
+                if (maps[i].mapTransform != null)
                 {
-                    locations[i].mapTransform.localPosition = Vector3.Lerp(startPositions[i], endPositions[i], t);
+                    maps[i].mapTransform.localPosition = Vector3.Lerp(startPositions[i], endPositions[i], t);
                 }
             }
 
             yield return null;
         }
 
-        for (int i = 0; i < locations.Count; i++)
+        for (int i = 0; i < maps.Count; i++)
         {
-            if (locations[i].mapTransform != null)
+            if (maps[i].mapTransform != null)
             {
-                locations[i].mapTransform.localPosition = endPositions[i];
+                maps[i].mapTransform.localPosition = endPositions[i];
             }
         }
 
         slideRoutine = null;
     }
 
-    private void UpdateLabelAndBgm(int index, bool playBgm)
+    private void RefreshMapState(int index, bool playBgm)
     {
-        LocationEntry active = locations[index];
+        MapEntry active = maps[index];
+        bool unlocked = IsMapUnlocked(index);
 
-        if (locationLabel != null)
+        if (sceneryTitleLabel != null)
         {
-            locationLabel.text = active.locationName;
+            sceneryTitleLabel.text = active.locationName;
         }
+
+        if (mapLockedRoot != null)
+        {
+            mapLockedRoot.SetActive(!unlocked);
+        }
+
+        if (unlockButton != null)
+        {
+            unlockButton.gameObject.SetActive(!unlocked);
+            unlockButton.interactable = !unlocked && CurrentCurrency >= active.unlockCost;
+        }
+
+        if (unlockCostLabel != null)
+        {
+            unlockCostLabel.text = unlocked ? "" : active.unlockCost.ToString();
+        }
+
+        RefreshCurrencyUI();
 
         if (playBgm && BGMController.Instance != null)
         {
             BGMController.Instance.PlayTrack(active.bgmTrack);
+        }
+    }
+
+    private void RefreshCurrencyUI()
+    {
+        if (currencyLabel != null)
+        {
+            currencyLabel.text = CurrentCurrency.ToString();
         }
     }
 }
