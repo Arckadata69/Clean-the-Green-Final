@@ -145,7 +145,7 @@ Transform:
   m_GameObject: {fileID: 86522966}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.00019073486, y: -38.5, z: 0}
+  m_LocalPosition: {x: -0.00019073486, y: -31.999722, z: 0}
   m_LocalScale: {x: 1.3, y: 1.2, z: 1.0088757}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -805,7 +805,7 @@ Transform:
   m_GameObject: {fileID: 1131308046}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -499.60004, y: -959.3299, z: 0}
+  m_LocalPosition: {x: -503.05, y: -959.3299, z: 0}
   m_LocalScale: {x: 0.32, y: 0.32, z: 3.1671555}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -915,22 +915,46 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c64f085f5d8625b47acf7988b4b81c91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LocationCarouselController
-  locations:
+  maps:
   - locationName: Forest
     mapTransform: {fileID: 425197996}
     bgmTrack: 1
+    unlockedByDefault: 1
+    saveKey: MapUnlocked_Forest
+    unlockCost: 0
+    onMapUnlocked:
+      m_PersistentCalls:
+        m_Calls: []
   - locationName: Beach
     mapTransform: {fileID: 1855790486}
     bgmTrack: 2
-  - locationName: City
+    unlockedByDefault: 0
+    saveKey: MapUnlocked_Beach
+    unlockCost: 100
+    onMapUnlocked:
+      m_PersistentCalls:
+        m_Calls: []
+  - locationName: City Park
     mapTransform: {fileID: 1131308047}
     bgmTrack: 3
-  locationLabel: {fileID: 0}
+    unlockedByDefault: 0
+    saveKey: MapUnlocked_CityPark
+    unlockCost: 200
+    onMapUnlocked:
+      m_PersistentCalls:
+        m_Calls: []
+  sceneryTitleLabel: {fileID: 0}
   mapSpacingX: 12
   centerLocalPosition: {x: 0, y: 0, z: 0}
   slideDuration: 0.35
   loopAround: 1
   playBgmOnStart: 1
+  mapLockedRoot: {fileID: 711265579}
+  unlockButton: {fileID: 0}
+  unlockCostLabel: {fileID: 0}
+  currencyLabel: {fileID: 0}
+  currencySaveKey: PlayerCurrency
+  startingCurrency: 250
 --- !u!1 &1332494451
 GameObject:
   m_ObjectHideFlags: 0
@@ -1269,7 +1293,7 @@ Transform:
   m_GameObject: {fileID: 1603720679}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 23, y: -38.5, z: 0}
+  m_LocalPosition: {x: 23, y: -31.999722, z: 0}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1332,8 +1356,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1274589264}
-        m_TargetAssemblyTypeName: LocationCarouselController, Assembly-CSharp
-        m_MethodName: NextLocation
+        m_TargetAssemblyTypeName: MapSlider, Assembly-CSharp
+        m_MethodName: NextMap
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1594,7 +1618,7 @@ Transform:
   m_GameObject: {fileID: 1855790485}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -519.6001, y: -964.7999, z: 0}
+  m_LocalPosition: {x: -521.51, y: -964.7999, z: 0}
   m_LocalScale: {x: 0.32, y: 0.32, z: 3.1671555}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1780,7 +1804,7 @@ Transform:
   m_GameObject: {fileID: 1869124623}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -23, y: -38.500187, z: 0}
+  m_LocalPosition: {x: -23, y: -32, z: 0}
   m_LocalScale: {x: 1.2, y: 1.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1843,8 +1867,8 @@ MonoBehaviour:
           m_BoolArgument: 0
         m_CallState: 2
       - m_Target: {fileID: 1274589264}
-        m_TargetAssemblyTypeName: LocationCarouselController, Assembly-CSharp
-        m_MethodName: PreviousLocation
+        m_TargetAssemblyTypeName: MapSlider, Assembly-CSharp
+        m_MethodName: PreviousMap
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

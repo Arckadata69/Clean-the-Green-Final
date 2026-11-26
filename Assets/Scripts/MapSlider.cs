@@ -13,7 +13,7 @@ public class MapSlider : MonoBehaviour
     {
         public string locationName = "Forest";
         public Transform mapTransform;
-        public BGMController.BgmTrack bgmTrack = BGMController.BgmTrack.GameLocation1;
+        public BGMController.BgmTrack bgmTrack = BGMController.BgmTrack.Forest;
 
         [Header("Lock & Currency Unlock")]
         public bool unlockedByDefault = true;
@@ -25,9 +25,9 @@ public class MapSlider : MonoBehaviour
     [Header("Maps (Order: Left -> Right)")]
     [SerializeField] private List<MapEntry> maps = new List<MapEntry>
     {
-        new MapEntry { locationName = "Forest", bgmTrack = BGMController.BgmTrack.GameLocation1, unlockedByDefault = true, saveKey = "MapUnlocked_Forest", unlockCost = 0 },
-        new MapEntry { locationName = "Beach", bgmTrack = BGMController.BgmTrack.GameLocation2, unlockedByDefault = false, saveKey = "MapUnlocked_Beach", unlockCost = 100 },
-        new MapEntry { locationName = "City Park", bgmTrack = BGMController.BgmTrack.GameLocation3, unlockedByDefault = false, saveKey = "MapUnlocked_CityPark", unlockCost = 200 }
+        new MapEntry { locationName = "Forest", bgmTrack = BGMController.BgmTrack.Forest, unlockedByDefault = true, saveKey = "MapUnlocked_Forest", unlockCost = 0 },
+        new MapEntry { locationName = "Beach", bgmTrack = BGMController.BgmTrack.Beach, unlockedByDefault = false, saveKey = "MapUnlocked_Beach", unlockCost = 100 },
+        new MapEntry { locationName = "City Park", bgmTrack = BGMController.BgmTrack.City, unlockedByDefault = false, saveKey = "MapUnlocked_CityPark", unlockCost = 200 }
     };
 
     [Header("Scenery Label & Slide Layout")]
