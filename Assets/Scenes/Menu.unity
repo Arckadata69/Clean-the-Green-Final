@@ -256,7 +256,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 0384ece90f229f946ba3fd6d203dd5ce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -660,9 +660,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PopupWindowController
   otherWindowsToClose:
   - {fileID: 988383061}
-  - {fileID: 0}
+  - {fileID: 404664239}
   - {fileID: 1382177315}
-  backdropObject: {fileID: 0}
+  backdropObject: {fileID: 2082078686}
   snapBackdropToAnchor: 1
   backdropOffset: {x: 0, y: 0, z: -0.5}
   snapToAnchorOnOpen: 1
@@ -780,16 +780,16 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ClickSfxTrigger, Assembly-CSharp
-        m_MethodName: PlaySfx
-        m_Mode: 1
+      - m_Target: {fileID: 1460140082}
+        m_TargetAssemblyTypeName: SfxPlayer, Assembly-CSharp
+        m_MethodName: PlayNamedSfx
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Click
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!61 &256499621
@@ -885,7 +885,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 7
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: bb727ec3e0fae204093deb555bdfe78d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -980,7 +980,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: bb727ec3e0fae204093deb555bdfe78d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1204,7 +1204,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: c9ddfbd78a0f4e24cacc6d9786587331, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1346,7 +1346,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 6
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: d18e683be721840469dbece6adbe2ea1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -1373,7 +1373,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PopupWindowController
   otherWindowsToClose:
   - {fileID: 196424933}
-  - {fileID: 988383061}
   - {fileID: 1382177315}
   backdropObject: {fileID: 0}
   snapBackdropToAnchor: 1
@@ -1904,7 +1903,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 0f56ab5f8c4823740a0365453807a1c9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2113,7 +2112,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 00d31fdc46d3d2343af06a3bf6f375c5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -2326,7 +2325,7 @@ MeshRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 7
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &621022807
@@ -2924,7 +2923,7 @@ MeshRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!114 &814226039
@@ -3131,16 +3130,16 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: ClickSfxTrigger, Assembly-CSharp
-        m_MethodName: PlaySfx
-        m_Mode: 1
+      - m_Target: {fileID: 1460140082}
+        m_TargetAssemblyTypeName: SfxPlayer, Assembly-CSharp
+        m_MethodName: PlayNamedSfx
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: Click
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!61 &845702493
@@ -3236,7 +3235,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 7
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: bb727ec3e0fae204093deb555bdfe78d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3328,7 +3327,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 0f56ab5f8c4823740a0365453807a1c9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3538,7 +3537,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 0384ece90f229f946ba3fd6d203dd5ce, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -3890,9 +3889,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PopupWindowController
   otherWindowsToClose:
   - {fileID: 196424933}
-  - {fileID: 0}
+  - {fileID: 404664239}
   - {fileID: 1382177315}
-  backdropObject: {fileID: 0}
+  backdropObject: {fileID: 2082078686}
   snapBackdropToAnchor: 1
   backdropOffset: {x: 0, y: 0, z: -0.5}
   snapToAnchorOnOpen: 1
@@ -4348,7 +4347,7 @@ MeshRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1255588471
@@ -4529,7 +4528,7 @@ MeshRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 7
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &1382177309
@@ -4661,7 +4660,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 6
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: d18e683be721840469dbece6adbe2ea1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -4688,7 +4687,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PopupWindowController
   otherWindowsToClose:
   - {fileID: 196424933}
-  - {fileID: 988383061}
   - {fileID: 404664239}
   backdropObject: {fileID: 0}
   snapBackdropToAnchor: 1
@@ -4895,7 +4893,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 00d31fdc46d3d2343af06a3bf6f375c5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5013,7 +5011,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: a55547a46dfb7a3409a8c0b5f94055eb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -5837,7 +5835,7 @@ Transform:
   m_GameObject: {fileID: 1595690484}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.33024, y: -0.04403, z: 0}
+  m_LocalPosition: {x: 5.65, y: -0.04403, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -6354,7 +6352,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: 00d31fdc46d3d2343af06a3bf6f375c5, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -6571,7 +6569,7 @@ MeshRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 3
+  m_SortingOrder: 4
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &2052425518
@@ -6656,7 +6654,7 @@ SpriteRenderer:
   m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 4
+  m_SortingOrder: 5
   m_MaskInteraction: 0
   m_Sprite: {fileID: 21300000, guid: bb727ec3e0fae204093deb555bdfe78d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -6829,7 +6827,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 1.32, y: 0.04, z: 0}
-  m_LocalScale: {x: 0.2, y: 0.2, z: -0.5}
+  m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1595690485}
