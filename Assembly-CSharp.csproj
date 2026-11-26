@@ -63,6 +63,7 @@
     <Compile Include="Assets\Scripts\WindowPopup.cs" />
     <Compile Include="Assets\Scripts\Persistence.cs" />
     <Compile Include="Assets\Scripts\IconPressed.cs" />
+    <Compile Include="Assets\Scripts\AlmanacItem.cs" />
     <Compile Include="Assets\Scripts\SfxPlayer.cs" />
     <Compile Include="Assets\Scripts\Click.cs" />
     <Compile Include="Assets\Scripts\Toggle.cs" />
