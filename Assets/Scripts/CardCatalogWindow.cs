@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class CatalogDetailWindow : MonoBehaviour
 {
-    [Header("Window & Flip Containers")]
+    [Header("Window & Flip")]
     [SerializeField] private GameObject windowRoot;
     [SerializeField] private RectTransform cardFlipRoot;
     [SerializeField] private GameObject frontFace;
@@ -29,7 +29,7 @@ public class CatalogDetailWindow : MonoBehaviour
     [SerializeField] private TMP_Text pickedUpCountText;
     [SerializeField] private Button backButton;
 
-    [Header("Undiscovered Display")]
+    [Header("Undiscovered")]
     [SerializeField] private string undiscoveredName = "???";
     [SerializeField] private string undiscoveredDetails = "Not picked up yet.";
 
@@ -37,34 +37,21 @@ public class CatalogDetailWindow : MonoBehaviour
 
     private void Awake()
     {
-        if (windowRoot == null)
-            windowRoot = gameObject;
+        if (windowRoot == null) windowRoot = gameObject;
+        if (cardFlipRoot == null && windowRoot != null) cardFlipRoot = windowRoot.GetComponent<RectTransform>();
 
-        if (cardFlipRoot == null && windowRoot != null)
-            cardFlipRoot = windowRoot.GetComponent<RectTransform>();
-
-        if (canCauseButton != null)
-            canCauseButton.onClick.AddListener(FlipToBack);
-
-        if (backButton != null)
-            backButton.onClick.AddListener(FlipToFront);
-
-        if (closeWindowButton != null)
-            closeWindowButton.onClick.AddListener(Close);
+        if (canCauseButton != null) canCauseButton.onClick.AddListener(FlipToBack);
+        if (backButton != null) backButton.onClick.AddListener(FlipToFront);
+        if (closeWindowButton != null) closeWindowButton.onClick.AddListener(Close);
 
         Close();
     }
 
     private void OnDestroy()
     {
-        if (canCauseButton != null)
-            canCauseButton.onClick.RemoveListener(FlipToBack);
-
-        if (backButton != null)
-            backButton.onClick.RemoveListener(FlipToFront);
-
-        if (closeWindowButton != null)
-            closeWindowButton.onClick.RemoveListener(Close);
+        if (canCauseButton != null) canCauseButton.onClick.RemoveListener(FlipToBack);
+        if (backButton != null) backButton.onClick.RemoveListener(FlipToFront);
+        if (closeWindowButton != null) closeWindowButton.onClick.RemoveListener(Close);
     }
 
     public void OpenTrashEntry(
@@ -81,51 +68,30 @@ public class CatalogDetailWindow : MonoBehaviour
         string properBin,
         int pickedUpCount)
     {
-        if (trashNameText != null)
-            trashNameText.text = isDiscovered ? trashName : undiscoveredName;
-
-        if (detailsText != null)
-            detailsText.text = isDiscovered ? details : undiscoveredDetails;
-
-        if (valueText != null)
-            valueText.text = isDiscovered ? valueAndPoints : "???";
-
-        if (locationText != null)
-            locationText.text = isDiscovered ? location : "???";
+        if (trashNameText != null) trashNameText.text = isDiscovered ? trashName : undiscoveredName;
+        if (detailsText != null) detailsText.text = isDiscovered ? details : undiscoveredDetails;
+        if (valueText != null) valueText.text = isDiscovered ? valueAndPoints : "???";
+        if (locationText != null) locationText.text = isDiscovered ? location : "???";
 
         Sprite frontArt = isDiscovered ? trashSprite : (silhouetteSprite != null ? silhouetteSprite : trashSprite);
         SetSprite(trashIconImage, frontArt);
 
-        if (canCauseButton != null)
-            canCauseButton.interactable = isDiscovered;
+        if (canCauseButton != null) canCauseButton.interactable = isDiscovered;
 
-        if (warningHeaderText != null)
-            warningHeaderText.text = string.IsNullOrEmpty(warningHeader) ? "If left unnoticed" : warningHeader;
-
-        if (consequenceText != null)
-            consequenceText.text = isDiscovered ? consequence : undiscoveredDetails;
-
-        if (properBinText != null)
-            properBinText.text = isDiscovered ? properBin : "???";
-
-        if (pickedUpCountText != null)
-            pickedUpCountText.text = pickedUpCount.ToString();
+        if (warningHeaderText != null) warningHeaderText.text = string.IsNullOrEmpty(warningHeader) ? "If left unnoticed" : warningHeader;
+        if (consequenceText != null) consequenceText.text = isDiscovered ? consequence : undiscoveredDetails;
+        if (properBinText != null) properBinText.text = isDiscovered ? properBin : "???";
+        if (pickedUpCountText != null) pickedUpCountText.text = pickedUpCount.ToString();
 
         SetSprite(hazardImage, isDiscovered ? hazardSprite : null);
 
+        ResetPositionAndScale();
         SetFaceImmediate(showBack: false);
         windowRoot.SetActive(true);
     }
 
-    public void FlipToBack()
-    {
-        StartFlip(showBack: true);
-    }
-
-    public void FlipToFront()
-    {
-        StartFlip(showBack: false);
-    }
+    public void FlipToBack() => StartFlip(true);
+    public void FlipToFront() => StartFlip(false);
 
     public void Close()
     {
@@ -135,54 +101,54 @@ public class CatalogDetailWindow : MonoBehaviour
             _flipRoutine = null;
         }
 
-        if (cardFlipRoot != null)
-            cardFlipRoot.localScale = Vector3.one;
-
-        if (windowRoot != null)
-            windowRoot.SetActive(false);
+        ResetPositionAndScale();
+        if (windowRoot != null) windowRoot.SetActive(false);
     }
 
     private void StartFlip(bool showBack)
     {
-        if (cardFlipRoot == null)
+        if (_flipRoutine != null) StopCoroutine(_flipRoutine);
+
+        if (cardFlipRoot == null || flipHalfDuration <= 0f)
         {
             SetFaceImmediate(showBack);
             return;
         }
-
-        if (_flipRoutine != null)
-            StopCoroutine(_flipRoutine);
 
         _flipRoutine = StartCoroutine(FlipRoutine(showBack));
     }
 
     private IEnumerator FlipRoutine(bool showBack)
     {
-        float elapsed = 0f;
-        Vector3 baseScale = Vector3.one;
-
-        while (elapsed < flipHalfDuration)
-        {
-            elapsed += Time.unscaledDeltaTime;
-            float t = Mathf.Clamp01(elapsed / flipHalfDuration);
-            cardFlipRoot.localScale = new Vector3(Mathf.Lerp(1f, 0f, t), baseScale.y, baseScale.z);
-            yield return null;
-        }
-
-        cardFlipRoot.localScale = new Vector3(0f, baseScale.y, baseScale.z);
+        yield return ScaleX(1f, 0f);
         SetFaceImmediate(showBack);
+        yield return ScaleX(0f, 1f);
+        _flipRoutine = null;
+    }
 
-        elapsed = 0f;
+    private IEnumerator ScaleX(float from, float to)
+    {
+        float elapsed = 0f;
         while (elapsed < flipHalfDuration)
         {
             elapsed += Time.unscaledDeltaTime;
-            float t = Mathf.Clamp01(elapsed / flipHalfDuration);
-            cardFlipRoot.localScale = new Vector3(Mathf.Lerp(0f, 1f, t), baseScale.y, baseScale.z);
+            float x = Mathf.Lerp(from, to, Mathf.Clamp01(elapsed / flipHalfDuration));
+            if (cardFlipRoot != null)
+                cardFlipRoot.localScale = new Vector3(x, 1f, 1f);
             yield return null;
         }
 
-        cardFlipRoot.localScale = baseScale;
-        _flipRoutine = null;
+        if (cardFlipRoot != null)
+            cardFlipRoot.localScale = new Vector3(to, 1f, 1f);
+    }
+
+    private void ResetPositionAndScale()
+    {
+        if (cardFlipRoot != null)
+        {
+            cardFlipRoot.localScale = Vector3.one;
+            cardFlipRoot.anchoredPosition = Vector2.zero;
+        }
     }
 
     private void SetFaceImmediate(bool showBack)
