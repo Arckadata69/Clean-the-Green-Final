@@ -400,6 +400,11 @@ MonoBehaviour:
   clickFlashDuration: 0.12
   clickFrameSprites: []
   frameInterval: 0.05
+  enablePulseAnimation: 1
+  pulseTarget: {fileID: 0}
+  pulseMode: 0
+  pulseScaleMultiplier: 1.15
+  pulseDuration: 0.14
   supportWorldMouseDown: 1
 --- !u!1 &182829075
 GameObject:
@@ -723,6 +728,11 @@ MonoBehaviour:
   clickFlashDuration: 0.12
   clickFrameSprites: []
   frameInterval: 0.05
+  enablePulseAnimation: 1
+  pulseTarget: {fileID: 0}
+  pulseMode: 0
+  pulseScaleMultiplier: 1.15
+  pulseDuration: 0.14
   supportWorldMouseDown: 1
 --- !u!114 &256499620
 MonoBehaviour:
@@ -1124,6 +1134,11 @@ MonoBehaviour:
   clickFlashDuration: 0.12
   clickFrameSprites: []
   frameInterval: 0.05
+  enablePulseAnimation: 1
+  pulseTarget: {fileID: 0}
+  pulseMode: 0
+  pulseScaleMultiplier: 1.15
+  pulseDuration: 0.14
   supportWorldMouseDown: 1
 --- !u!1 &354929167
 GameObject:
@@ -2358,7 +2373,7 @@ Transform:
   m_GameObject: {fileID: 621022807}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 20, y: -20.799982, z: 0}
+  m_LocalPosition: {x: 20.800043, y: -30.499676, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 3.3962264}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2585,6 +2600,11 @@ MonoBehaviour:
   clickFlashDuration: 0.12
   clickFrameSprites: []
   frameInterval: 0.05
+  enablePulseAnimation: 1
+  pulseTarget: {fileID: 0}
+  pulseMode: 0
+  pulseScaleMultiplier: 1.15
+  pulseDuration: 0.14
   supportWorldMouseDown: 1
 --- !u!1 &681918463
 GameObject:
@@ -2829,7 +2849,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f98984ebe2402eb4aaa7fad0ac27bcfe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SceneLoader
-  makePersistent: 1
+  makePersistent: 0
   overlayCanvasGroup: {fileID: 1482245792}
   overlayImage: {fileID: 1482245790}
   pulseTarget: {fileID: 182829076}
@@ -2840,6 +2860,9 @@ MonoBehaviour:
   fadeInDuration: 0.35
   pulseStartScale: 1.25
   fallbackDirectLoadIfMissingOverlay: 1
+  autoBindButtonsOnSceneLoad: 1
+  playSfxOnAllBoundButtons: 1
+  buttonBindings: []
 --- !u!1 &814226034
 GameObject:
   m_ObjectHideFlags: 0
@@ -3073,6 +3096,11 @@ MonoBehaviour:
   clickFlashDuration: 0.12
   clickFrameSprites: []
   frameInterval: 0.05
+  enablePulseAnimation: 1
+  pulseTarget: {fileID: 0}
+  pulseMode: 0
+  pulseScaleMultiplier: 1.15
+  pulseDuration: 0.14
   supportWorldMouseDown: 1
 --- !u!114 &845702492
 MonoBehaviour:
@@ -3567,6 +3595,11 @@ MonoBehaviour:
   clickFlashDuration: 0.12
   clickFrameSprites: []
   frameInterval: 0.05
+  enablePulseAnimation: 1
+  pulseTarget: {fileID: 0}
+  pulseMode: 0
+  pulseScaleMultiplier: 1.15
+  pulseDuration: 0.14
   supportWorldMouseDown: 1
 --- !u!1 &930409486
 GameObject:
@@ -3931,7 +3964,7 @@ Transform:
   m_GameObject: {fileID: 1136126765}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -20, y: -20.799982, z: 0}
+  m_LocalPosition: {x: -19.199957, y: -30.099676, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 3.3962264}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4146,6 +4179,11 @@ MonoBehaviour:
   clickFlashDuration: 0.12
   clickFrameSprites: []
   frameInterval: 0.05
+  enablePulseAnimation: 1
+  pulseTarget: {fileID: 0}
+  pulseMode: 0
+  pulseScaleMultiplier: 1.15
+  pulseDuration: 0.14
   supportWorldMouseDown: 1
 --- !u!95 &1136126774
 Animator:
@@ -5143,6 +5181,11 @@ MonoBehaviour:
   clickFlashDuration: 0.12
   clickFrameSprites: []
   frameInterval: 0.05
+  enablePulseAnimation: 1
+  pulseTarget: {fileID: 0}
+  pulseMode: 0
+  pulseScaleMultiplier: 1.15
+  pulseDuration: 0.14
   supportWorldMouseDown: 1
 --- !u!1 &1460140080
 GameObject:
@@ -5189,6 +5232,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2eccae480f73e649bc9f6d6063a25f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SfxPlayer
+  makePersistent: 0
   defaultClickClip: {fileID: 0}
   defaultVolume: 1
   soundLibrary:
@@ -5594,7 +5638,7 @@ Transform:
   m_GameObject: {fileID: 1580943942}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -15.8, z: 0}
+  m_LocalPosition: {x: 0.8, y: -21.7, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 3.3962264}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -5809,6 +5853,11 @@ MonoBehaviour:
   clickFlashDuration: 0.12
   clickFrameSprites: []
   frameInterval: 0.05
+  enablePulseAnimation: 1
+  pulseTarget: {fileID: 0}
+  pulseMode: 0
+  pulseScaleMultiplier: 1.15
+  pulseDuration: 0.14
   supportWorldMouseDown: 1
 --- !u!1 &1595690484
 GameObject:
@@ -6798,6 +6847,11 @@ MonoBehaviour:
   clickFlashDuration: 0.12
   clickFrameSprites: []
   frameInterval: 0.05
+  enablePulseAnimation: 1
+  pulseTarget: {fileID: 0}
+  pulseMode: 0
+  pulseScaleMultiplier: 1.15
+  pulseDuration: 0.14
   supportWorldMouseDown: 1
 --- !u!1 &2082078686
 GameObject:

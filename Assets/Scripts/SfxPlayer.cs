@@ -17,6 +17,9 @@ public class SfxPlayer : MonoBehaviour
         [Range(0f, 1f)] public float volumeScale;
     }
 
+    [Header("Persistence (Uncheck for Independent Per-Scene SFX)")]
+    [SerializeField] private bool makePersistent = false;
+
     [Header("Default & Reusable Clips")]
     [SerializeField] private AudioClip defaultClickClip;
     [SerializeField] [Range(0f, 1f)] private float defaultVolume = 1f;
@@ -27,14 +30,21 @@ public class SfxPlayer : MonoBehaviour
 
     void Awake()
     {
-        if (Instance != null && Instance != this)
+        if (makePersistent)
         {
-            Destroy(gameObject);
-            return;
-        }
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
 
-        Instance = this;
-        DontDestroyOnLoad(gameObject);
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Instance = this;
+        }
 
         sfxSource = GetComponent<AudioSource>();
         sfxSource.playOnAwake = false;
@@ -69,13 +79,11 @@ public class SfxPlayer : MonoBehaviour
         sfxSource.mute = PlayerPrefs.GetInt(SfxSaveKey, 1) != 1;
     }
 
-    // Change the default clip at runtime or in code when switching contexts
     public void SetDefaultClip(AudioClip newClip)
     {
         defaultClickClip = newClip;
     }
 
-    // Play a specific clip passed directly from any script or event
     public void PlayClip(AudioClip clip, float volumeScale = 1f, float pitchMin = 0.96f, float pitchMax = 1.04f)
     {
         if (sfxSource == null) sfxSource = GetComponent<AudioSource>();
@@ -85,7 +93,6 @@ public class SfxPlayer : MonoBehaviour
         sfxSource.PlayOneShot(clip, defaultVolume * Mathf.Clamp01(volumeScale));
     }
 
-    // Play a reusable sound from Sound Library by name (e.g., "PopupOpen", "Success", "TrashPickup")
     public void PlayNamedSfx(string key)
     {
         if (string.IsNullOrWhiteSpace(key)) return;
@@ -98,7 +105,6 @@ public class SfxPlayer : MonoBehaviour
         }
     }
 
-    // Keep compatibility with existing button click calls
     public void PlayClick(AudioClip clip = null, float volumeScale = 1f, float pitchMin = 0.96f, float pitchMax = 1.04f)
     {
         AudioClip target = clip != null ? clip : defaultClickClip;

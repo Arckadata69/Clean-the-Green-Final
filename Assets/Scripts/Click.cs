@@ -5,6 +5,12 @@ using UnityEngine.UI;
 
 public class ButtonPngClickEffect : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerClickHandler
 {
+    public enum PulseMode
+    {
+        PunchOutAndBack,
+        SquashDownAndPop
+    }
+
     [Header("Single Clicked PNG (Sprite Swap)")]
     [SerializeField] private Sprite normalSprite;
     [SerializeField] private Sprite pressedSprite;
@@ -15,19 +21,35 @@ public class ButtonPngClickEffect : MonoBehaviour, IPointerDownHandler, IPointer
     [SerializeField] private Sprite[] clickFrameSprites;
     [SerializeField] private float frameInterval = 0.05f;
 
+    [Header("Optional Pulse Animation")]
+    [SerializeField] private bool enablePulseAnimation = true;
+    [Tooltip("Leave empty to pulse this GameObject's Transform.")]
+    [SerializeField] private Transform pulseTarget;
+    [SerializeField] private PulseMode pulseMode = PulseMode.PunchOutAndBack;
+    [SerializeField] private float pulseScaleMultiplier = 1.15f;
+    [SerializeField] [Min(0.02f)] private float pulseDuration = 0.14f;
+
     [Header("World 2D Object Support")]
     [SerializeField] private bool supportWorldMouseDown = true;
 
     private Image uiImage;
     private SpriteRenderer worldSpriteRenderer;
     private Button uiButton;
-    private Coroutine activeRoutine;
+    private Coroutine spriteRoutine;
+    private Coroutine pulseRoutine;
+    private Vector3 baseScale;
 
     void Awake()
     {
         uiImage = GetComponent<Image>();
         worldSpriteRenderer = GetComponent<SpriteRenderer>();
         uiButton = GetComponent<Button>();
+
+        if (pulseTarget == null)
+        {
+            pulseTarget = transform;
+        }
+        baseScale = pulseTarget.localScale;
 
         Sprite current = GetCurrentSprite();
         if (normalSprite == null && current != null)
@@ -69,7 +91,6 @@ public class ButtonPngClickEffect : MonoBehaviour, IPointerDownHandler, IPointer
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        // UI Buttons already invoke TriggerClickPng via onClick
         if (uiButton == null)
         {
             TriggerClickPng();
@@ -86,19 +107,38 @@ public class ButtonPngClickEffect : MonoBehaviour, IPointerDownHandler, IPointer
 
     public void TriggerClickPng()
     {
-        if (activeRoutine != null)
+        if (!gameObject.activeInHierarchy) return;
+
+        if (spriteRoutine != null)
         {
-            StopCoroutine(activeRoutine);
+            StopCoroutine(spriteRoutine);
         }
 
         if (clickFrameSprites != null && clickFrameSprites.Length > 0)
         {
-            activeRoutine = StartCoroutine(PlayFrameSequence());
+            spriteRoutine = StartCoroutine(PlayFrameSequence());
         }
         else if (pressedSprite != null)
         {
-            activeRoutine = StartCoroutine(FlashPressedSprite());
+            spriteRoutine = StartCoroutine(FlashPressedSprite());
         }
+
+        if (enablePulseAnimation)
+        {
+            PlayPulseAnimation();
+        }
+    }
+
+    public void PlayPulseAnimation()
+    {
+        if (!gameObject.activeInHierarchy || pulseTarget == null) return;
+
+        if (pulseRoutine != null)
+        {
+            StopCoroutine(pulseRoutine);
+        }
+
+        pulseRoutine = StartCoroutine(PulseRoutine());
     }
 
     private IEnumerator FlashPressedSprite()
@@ -111,7 +151,7 @@ public class ButtonPngClickEffect : MonoBehaviour, IPointerDownHandler, IPointer
             SetSprite(normalSprite);
         }
 
-        activeRoutine = null;
+        spriteRoutine = null;
     }
 
     private IEnumerator PlayFrameSequence()
@@ -130,7 +170,41 @@ public class ButtonPngClickEffect : MonoBehaviour, IPointerDownHandler, IPointer
             SetSprite(normalSprite);
         }
 
-        activeRoutine = null;
+        spriteRoutine = null;
+    }
+
+    private IEnumerator PulseRoutine()
+    {
+        float halfDuration = Mathf.Max(0.01f, pulseDuration * 0.5f);
+        float targetFactor = pulseMode == PulseMode.SquashDownAndPop
+            ? Mathf.Min(pulseScaleMultiplier, 0.99f)
+            : pulseScaleMultiplier;
+
+        Vector3 peakScale = baseScale * targetFactor;
+        Vector3 currentStart = pulseTarget.localScale;
+
+        float elapsed = 0f;
+        while (elapsed < halfDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float t = Mathf.Clamp01(elapsed / halfDuration);
+            pulseTarget.localScale = Vector3.Lerp(currentStart, peakScale, t);
+            yield return null;
+        }
+
+        pulseTarget.localScale = peakScale;
+
+        elapsed = 0f;
+        while (elapsed < halfDuration)
+        {
+            elapsed += Time.unscaledDeltaTime;
+            float t = Mathf.Clamp01(elapsed / halfDuration);
+            pulseTarget.localScale = Vector3.Lerp(peakScale, baseScale, t);
+            yield return null;
+        }
+
+        pulseTarget.localScale = baseScale;
+        pulseRoutine = null;
     }
 
     private Sprite GetCurrentSprite()
