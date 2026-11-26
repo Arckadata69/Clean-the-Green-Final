@@ -712,7 +712,7 @@ Transform:
   m_GameObject: {fileID: 711265579}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -566, y: -958.57996, z: 0}
+  m_LocalPosition: {x: -539.9, y: -958.57996, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 3.1952665}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -930,7 +930,7 @@ MonoBehaviour:
     bgmTrack: 2
     unlockedByDefault: 0
     saveKey: MapUnlocked_Beach
-    unlockCost: 100
+    unlockCost: 1
     onMapUnlocked:
       m_PersistentCalls:
         m_Calls: []
@@ -939,11 +939,11 @@ MonoBehaviour:
     bgmTrack: 3
     unlockedByDefault: 0
     saveKey: MapUnlocked_CityPark
-    unlockCost: 200
+    unlockCost: 5
     onMapUnlocked:
       m_PersistentCalls:
         m_Calls: []
-  sceneryTitleLabel: {fileID: 0}
+  sceneryTitleLabel: {fileID: 1547579781}
   mapSpacingX: 12
   centerLocalPosition: {x: 0, y: 0, z: 0}
   slideDuration: 0.35
