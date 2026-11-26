@@ -358,8 +358,8 @@ Transform:
   m_GameObject: {fileID: 75642358}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -540, y: -959.64813, z: 0}
-  m_LocalScale: {x: 0.62, y: 0.62, z: 3.1671555}
+  m_LocalPosition: {x: -540, y: -960.1, z: 0}
+  m_LocalScale: {x: 0.65, y: 0.65, z: 3.1671555}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2110984163}
@@ -2348,8 +2348,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -125}
-  m_SizeDelta: {x: 0, y: -250}
+  m_AnchoredPosition: {x: 0, y: -130}
+  m_SizeDelta: {x: 0, y: -260}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1039440965
 MonoBehaviour:
@@ -5145,7 +5145,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.GridLayoutGroup
   m_Padding:
-    m_Left: -90
+    m_Left: -105
     m_Right: 80
     m_Top: -145
     m_Bottom: 0
