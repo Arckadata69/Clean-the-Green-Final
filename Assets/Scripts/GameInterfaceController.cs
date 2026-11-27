@@ -59,10 +59,20 @@ public class GameInterfaceController : MonoBehaviour
     [SerializeField] private TMP_Text locationLabelText;
     [SerializeField] private Button prevLocationButton;
     [SerializeField] private Button nextLocationButton;
-    [Tooltip("Horizontal spacing between side-by-side maps in local X units.")]
-    [SerializeField] private float mapSpacingX = 10f;
-    [Tooltip("If true, auto-detects mapSpacingX from Map1 and Map2 when already spaced in Scene.")]
-    [SerializeField] private bool autoDetectSpacingFromScene = false;
+    [Tooltip("Uses Map1's starting localPosition as the center anchor so your Scene placement is respected.")]
+    [SerializeField] private bool useCurrentMap1PositionAsCenter = true;
+    [Tooltip("Uses each map's own starting localPosition.y so maps with different heights/pivots align properly.")]
+    [SerializeField] private bool keepEachMapInitialY = true;
+    [Tooltip("If true, calculates spacing from each sprite's actual local width so adjacent maps touch seamlessly.")]
+    [SerializeField] private bool useSpriteBoundsForSpacing = true;
+    [Tooltip("Fine-tune the centered map's local X offset if it sits slightly left or right.")]
+    [SerializeField] private float centerOffsetX = 0f;
+    [Tooltip("Fine-tune the vertical local Y offset of the maps if they sit too high or too low.")]
+    [SerializeField] private float centerOffsetY = 0f;
+    [Tooltip("Fallback horizontal spacing between side-by-side maps when sprite bounds are disabled or unavailable.")]
+    [SerializeField] private float mapSpacingX = 18f;
+    [Tooltip("Extra horizontal gap (negative brings maps closer together, positive adds space).")]
+    [SerializeField] private float gapAdjustmentX = 0f;
     [SerializeField] private float slideDuration = 0.28f;
     [SerializeField] private GameObject mapLockedRoot;
     [SerializeField] private Button unlockButton;
@@ -99,6 +109,7 @@ public class GameInterfaceController : MonoBehaviour
     [SerializeField] private float pulseAmount = 0.15f;
 
     private readonly List<GameObject> _activeTrashObjects = new List<GameObject>();
+    private readonly Dictionary<GameObject, Vector3> _initialLocalPositions = new Dictionary<GameObject, Vector3>();
     private Vector3 _centerLocalPosition;
     private Coroutine _slideRoutine;
     private Vector3 _timerFillBaseScale = Vector3.one;
@@ -177,13 +188,43 @@ public class GameInterfaceController : MonoBehaviour
         }
     }
 
+    private void CacheCenterAnchor()
+    {
+        _initialLocalPositions.Clear();
+        if (locations != null)
+        {
+            for (int i = 0; i < locations.Count; i++)
+            {
+                GameObject root = locations[i].locationRootObject;
+                if (root != null && !_initialLocalPositions.ContainsKey(root))
+                    _initialLocalPositions[root] = root.transform.localPosition;
+            }
+        }
+
+        if (locations != null && locations.Count > 0 && locations[0].locationRootObject != null)
+        {
+            Vector3 baseLocal = useCurrentMap1PositionAsCenter
+                ? locations[0].locationRootObject.transform.localPosition
+                : Vector3.zero;
+
+            _centerLocalPosition = new Vector3(
+                baseLocal.x + centerOffsetX,
+                baseLocal.y + centerOffsetY,
+                baseLocal.z
+            );
+        }
+        else
+        {
+            _centerLocalPosition = new Vector3(centerOffsetX, centerOffsetY, 0f);
+        }
+    }
+
     private void Awake()
     {
         if (GameInventoryManager.Instance == null && !PlayerPrefs.HasKey(currencySaveKey))
             PlayerPrefs.SetInt(currencySaveKey, startingCurrency);
 
-        if (locations != null && locations.Count > 0 && locations[0].locationRootObject != null)
-            _centerLocalPosition = locations[0].locationRootObject.transform.localPosition;
+        CacheCenterAnchor();
 
         if (timerFillSprite != null)
         {
@@ -222,17 +263,7 @@ public class GameInterfaceController : MonoBehaviour
     {
         _remainingTime = Mathf.Max(1f, totalMatchSeconds);
 
-        if (autoDetectSpacingFromScene && locations != null && locations.Count >= 2 &&
-            locations[0].locationRootObject != null && locations[1].locationRootObject != null)
-        {
-            float detectedSpacing = Mathf.Abs(
-                locations[1].locationRootObject.transform.localPosition.x -
-                locations[0].locationRootObject.transform.localPosition.x
-            );
-            if (detectedSpacing > 0.01f)
-                mapSpacingX = detectedSpacing;
-        }
-
+        CacheCenterAnchor();
         ApplySideBySideLayout(_currentLocationIndex, instant: true);
         UpdateScoreUI();
         RefreshCurrencyUI();
@@ -579,10 +610,88 @@ public class GameInterfaceController : MonoBehaviour
         _activeTrashObjects.Clear();
     }
 
+    private float GetStepWidthForMap(int index)
+    {
+        if (!useSpriteBoundsForSpacing || locations == null || index < 0 || index >= locations.Count)
+            return mapSpacingX + gapAdjustmentX;
+
+        GameObject root = locations[index].locationRootObject;
+        if (root != null)
+        {
+            SpriteRenderer[] renderers = root.GetComponentsInChildren<SpriteRenderer>();
+            if (renderers != null && renderers.Length > 0)
+            {
+                bool hasBounds = false;
+                float minLocalX = 0f;
+                float maxLocalX = 0f;
+
+                Transform rootTf = root.transform;
+                for (int i = 0; i < renderers.Length; i++)
+                {
+                    SpriteRenderer sr = renderers[i];
+                    if (sr == null || sr.sprite == null) continue;
+
+                    Bounds b = sr.sprite.bounds;
+                    Vector3[] corners = new Vector3[4]
+                    {
+                        sr.transform.TransformPoint(new Vector3(b.min.x, b.center.y, b.center.z)),
+                        sr.transform.TransformPoint(new Vector3(b.max.x, b.center.y, b.center.z)),
+                        sr.transform.TransformPoint(new Vector3(b.min.x, b.min.y, b.center.z)),
+                        sr.transform.TransformPoint(new Vector3(b.max.x, b.max.y, b.center.z))
+                    };
+
+                    for (int c = 0; c < corners.Length; c++)
+                    {
+                        float lx = rootTf.InverseTransformPoint(corners[c]).x;
+                        if (!hasBounds)
+                        {
+                            minLocalX = maxLocalX = lx;
+                            hasBounds = true;
+                        }
+                        else
+                        {
+                            if (lx < minLocalX) minLocalX = lx;
+                            if (lx > maxLocalX) maxLocalX = lx;
+                        }
+                    }
+                }
+
+                if (hasBounds)
+                {
+                    float totalLocalWidth = (maxLocalX - minLocalX) * rootTf.localScale.x;
+                    if (totalLocalWidth > 0.01f)
+                        return totalLocalWidth + gapAdjustmentX;
+                }
+            }
+        }
+
+        return mapSpacingX + gapAdjustmentX;
+    }
+
     private Vector3 GetTargetLocalPositionForMap(int mapIndex, int activeIndex)
     {
-        float offsetX = (mapIndex - activeIndex) * mapSpacingX;
-        return new Vector3(_centerLocalPosition.x + offsetX, _centerLocalPosition.y, _centerLocalPosition.z);
+        float offsetX = 0f;
+
+        if (mapIndex > activeIndex)
+        {
+            for (int i = activeIndex; i < mapIndex; i++)
+                offsetX += GetStepWidthForMap(i);
+        }
+        else if (mapIndex < activeIndex)
+        {
+            for (int i = mapIndex; i < activeIndex; i++)
+                offsetX -= GetStepWidthForMap(i);
+        }
+
+        float targetY = _centerLocalPosition.y;
+        if (keepEachMapInitialY && locations != null && mapIndex >= 0 && mapIndex < locations.Count)
+        {
+            GameObject root = locations[mapIndex].locationRootObject;
+            if (root != null && _initialLocalPositions.TryGetValue(root, out Vector3 initPos))
+                targetY = initPos.y + centerOffsetY;
+        }
+
+        return new Vector3(_centerLocalPosition.x + offsetX, targetY, _centerLocalPosition.z);
     }
 
     private void ApplySideBySideLayout(int activeIndex, bool instant)
@@ -595,7 +704,6 @@ public class GameInterfaceController : MonoBehaviour
 
         RefreshLockState(activeIndex);
 
-        // Keep all assigned maps active side-by-side so they slide cleanly next to each other
         for (int i = 0; i < locations.Count; i++)
         {
             GameObject root = locations[i].locationRootObject;
