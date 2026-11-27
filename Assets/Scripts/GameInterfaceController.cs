@@ -13,6 +13,10 @@ public class SpriteLocationTheme
     public string locationName = "FOREST";
     [Tooltip("Drag your existing Hierarchy object for this map.")]
     public GameObject locationRootObject;
+    [Tooltip("Adjust X for THIS map only without moving the other maps.")]
+    public float localOffsetX = 0f;
+    [Tooltip("Adjust Y for THIS map only without moving the other maps.")]
+    public float localOffsetY = 0f;
     public Rect spawnArea = new Rect(-2.05f, -2.66f, 4.07f, 4.05f);
     public List<TrashItemDefinition> spawnableTrash = new List<TrashItemDefinition>();
 
@@ -683,15 +687,23 @@ public class GameInterfaceController : MonoBehaviour
                 offsetX -= GetStepWidthForMap(i);
         }
 
-        float targetY = _centerLocalPosition.y;
+        float perMapX = 0f;
+        float perMapY = 0f;
+        if (locations != null && mapIndex >= 0 && mapIndex < locations.Count)
+        {
+            perMapX = locations[mapIndex].localOffsetX;
+            perMapY = locations[mapIndex].localOffsetY;
+        }
+
+        float targetY = _centerLocalPosition.y + perMapY;
         if (keepEachMapInitialY && locations != null && mapIndex >= 0 && mapIndex < locations.Count)
         {
             GameObject root = locations[mapIndex].locationRootObject;
             if (root != null && _initialLocalPositions.TryGetValue(root, out Vector3 initPos))
-                targetY = initPos.y + centerOffsetY;
+                targetY = initPos.y + centerOffsetY + perMapY;
         }
 
-        return new Vector3(_centerLocalPosition.x + offsetX, targetY, _centerLocalPosition.z);
+        return new Vector3(_centerLocalPosition.x + offsetX + perMapX, targetY, _centerLocalPosition.z);
     }
 
     private void ApplySideBySideLayout(int activeIndex, bool instant)
