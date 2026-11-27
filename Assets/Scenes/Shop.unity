@@ -2217,6 +2217,7 @@ GameObject:
   - component: {fileID: 1677298596}
   - component: {fileID: 1677298599}
   - component: {fileID: 1677298600}
+  - component: {fileID: 1677298601}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2360,6 +2361,24 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_MaxRayIntersections: 0
+--- !u!114 &1677298601
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677298595}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79ab37269e2b9bb488fb3c0c2103d6ed, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ResponsiveOrthoCamera
+  referenceResolution: {x: 1080, y: 1920}
+  referenceOrthoSize: 5
+  framingMode: 2
+  clampOrthoSize: 1
+  minOrthoSize: 4
+  maxOrthoSize: 8
 --- !u!1001 &1748149175
 PrefabInstance:
   m_ObjectHideFlags: 0
