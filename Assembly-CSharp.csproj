@@ -59,6 +59,7 @@
     <Compile Include="Assets\Scripts\CatalogGridController.cs" />
     <Compile Include="Assets\Scripts\BgmController.cs" />
     <Compile Include="Assets\Scripts\Cycle.cs" />
+    <Compile Include="Assets\Scripts\GameInterfaceController.cs" />
     <Compile Include="Assets\Scripts\MapSlider.cs" />
     <Compile Include="Assets\Scripts\CardCatalogWindow.cs" />
     <Compile Include="Assets\Scripts\CatalogCardSlot.cs" />
@@ -67,8 +68,11 @@
     <Compile Include="Assets\Scripts\Persistence.cs" />
     <Compile Include="Assets\Scripts\IconPressed.cs" />
     <Compile Include="Assets\Scripts\SfxPlayer.cs" />
+    <Compile Include="Assets\Scripts\DraggableTrash.cs" />
     <Compile Include="Assets\Scripts\Click.cs" />
+    <Compile Include="Assets\Scripts\GameInventoryManager.cs" />
     <Compile Include="Assets\Scripts\Toggle.cs" />
+    <Compile Include="Assets\Scripts\TrashNSortController.cs" />
     <Compile Include="Assets\Scripts\Popup Button.cs" />
     <Compile Include="Assets\Scripts\Title.cs" />
     <Compile Include="Assets\Scripts\SceneLoader.cs" />
